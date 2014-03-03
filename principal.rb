@@ -6,5 +6,6 @@ require 'janela'
 
 
 
+
 janela = GuerraEntreMares.new 
 janela.show
