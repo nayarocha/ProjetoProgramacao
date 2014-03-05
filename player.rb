@@ -8,18 +8,13 @@ class Player
 		@position_y = 320
 		@score = 0
 
-		@bomba = Gosu::Image.new(@janela, "imagens/explosao.png",true)
+		@bomba = Gosu::Image::load_tiles(@janela, "imagens/explosao.png",192,195,true)
+		@bombas = []
 		@acertado = false
+
+		@x_bomba = 0
+		@y_bomba = 0
 	end 	
-
-
-	def draw 
-		if @acertado 
-			@bomba.draw(@position_x,@position_y,2)
-		else
-			@player.draw(@position_x,@position_y,1)
-		end 
-	end
 
 	def mov_direita 
 		@position_x = @position_x + 5
@@ -41,15 +36,24 @@ class Player
 	end 
 
 	def captura_inimigo(inimigos)
-		n_inimigos = inimigos.size
+		#n_inimigos = inimigos.size
 		inimigos.reject! do |inimigo|
 			@acertado = Gosu::distance(@position_x,@position_y, inimigo.x, inimigo.y) < 40
 		end 
-		n = n_inimigos - inimigos.size 		
-		#@score += n*1
-			#@score = @score - 1  
-			#@acertado
-		#end 
-
 	end 
+
+
+	def draw 
+		img_bomba = @bomba[Gosu::milliseconds / 100 % @bomba.size]
+
+		if @acertado 
+			for bomba in @bombas do 
+				@bomba.draw(@x_bomba,@y_bomba,3)
+			end 
+		else
+			@player.draw(@position_x-50,@position_y,1)
+		end 
+	end
 end 
+
+
