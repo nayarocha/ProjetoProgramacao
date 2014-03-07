@@ -3,6 +3,11 @@ ProjetoProgramacao
 
 Game desenvolvido para a disciplina de programação
 
+- Text input gosu :
+  https://github.com/jlnr/gosu/blob/master/examples/TextInput.rb
+
+- Referências GOsu:
+  https://github.com/jlnr/gosu/blob/master/reference/gosu.rb
 
 - LINKS importantes
 
