@@ -1,7 +1,7 @@
 ProjetoProgramacao
 ==================
 
-Game desenvolvido para a disciplina de programação
+Game desenvolvido para a disciplina de programação por matheus e nayara
 
 - Text input gosu :
   https://github.com/jlnr/gosu/blob/master/examples/TextInput.rb

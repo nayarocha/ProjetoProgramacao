@@ -20,8 +20,10 @@ class GuerraEntreMares < Gosu::Window
 		@time = 0.0
 		@estado = "INICIO"
 		@bg_inicio = Gosu::Image.new(self, "imagens/bg_final.png",true)
+		@numero_de_ini= 4000
+		@numero_de_nat= 100
 	end 
-
+	
 	#desenha a janela
 	def draw
 		@bg_inicio.draw(0,0,0)
@@ -51,16 +53,16 @@ class GuerraEntreMares < Gosu::Window
 				@estado = "JOGANDO"
 			end 
 		elsif (@estado == "JOGANDO")then 	
-			if rand(1000) < 15 then  
+			if rand(@numero_de_nat) < 15 then  
 				@nativos.push(Nativo.new(self))
 			end 
 
 			for nativo in @nativos do 
 				nativo.update
 			end 
-		
+				
 			#Queda dos inimigos - homens bombas
-      		if rand(2000) < 15  then
+      		if rand(@numero_de_ini) < 15  then
       			@inimigos.push(Inimigo.new(self))
 			end
       
@@ -70,6 +72,10 @@ class GuerraEntreMares < Gosu::Window
 			#capturando nativos
 			@player.captura_nativo(@nativos)
 			@player.captura_inimigo(@inimigos)
+			
+			#eliminando inimigos muito proximos dos natvos
+			nativo.coinc(@inimigos)	
+
 			#Movimentando o player 
 			if (button_down? Gosu::Button::KbRight) then 
 				@player.mov_direita	
@@ -84,6 +90,17 @@ class GuerraEntreMares < Gosu::Window
 				@bg_x = @bg_x + 5
 				if(@bg_x > 0)then @bg_x = 0 end 
 			end 
+			#numero de inimigos aumetando e de nativos diminuindo
+			if(@numero_de_ini.to_i > 900)then
+				@numero_de_ini= @numero_de_ini / (@time + 8).to_i
+			else
+				@numero_de_ini= 900
+			end
+			if(@numero_de_nat.to_i < 1000)then
+				@numero_de_nat= @numero_de_nat * (@time + 1).to_i 
+			else
+				@numero_de_nat= 1000
+			end
 
 			@time += 1.0/60.0
 			if (@time.to_i == 60)then

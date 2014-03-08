@@ -5,7 +5,7 @@ class Inimigo
     def initialize(janela)
 		  @janela = janela 
 		  @img_inimigo = Gosu::Image::load_tiles(@janela,"imagens/inimigo.png",65,80,false)
-		  @x = rand(@janela.width)
+		  @x = rand(@janela.width / 2 + 100)
       @y = 0
     end
 
