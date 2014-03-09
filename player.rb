@@ -18,12 +18,12 @@ class Player
 
 	def mov_direita 
 		@position_x = @position_x + 5
-		if(@position_x >500)then @position_x = 500 end  
+		if(@position_x >1024)then @position_x = 0 end  
 	end
 
 	def mov_esquerda
 		@position_x = @position_x - 5 
-		if(@position_x < 5)then @position_x = 5 end 
+		if(@position_x < 0)then @position_x = 1024 end 
 	end 
 
 	def captura_nativo(nativos)

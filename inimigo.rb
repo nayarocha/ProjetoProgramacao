@@ -18,12 +18,4 @@ class Inimigo
     def update 
         @y = @y + 2
     end
-
-    #def x 
-       # @x 
-    #end 
-
-   # def y
-       # @y
-   # end 
 end

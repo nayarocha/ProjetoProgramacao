@@ -3,16 +3,18 @@ require 'gosu'
 require 'player'
 require 'inimigo'
 require 'nativos'
+require 'bg_game'
 
 class GuerraEntreMares < Gosu::Window 
 	def initialize
 		super(1024,389,false)
 		self.caption = "Guerra entre mares"
-		@bg_tela = Gosu::Image.new(self, "imagens/bg2.png",true)
+		#@bg_tela = Gosu::Image.new(self, "imagens/bg2.png",true)
 		@player = Player.new(self)
+		@bggame = BgGame.new(self)
 		@inimigos = []	
 		#Bg em movimento
-		@bg_x = 1
+		#@bg_x = 1
 		@nativos = 5.times.map {Nativo.new(self)}
 		
 		@font = Gosu::Font.new(self, Gosu::default_font_name,20)
@@ -30,7 +32,7 @@ class GuerraEntreMares < Gosu::Window
 		if(@estado == "INICIO")then 
 			#@font.draw("Pressione I para começar", 10, 10, 3,1.0,1.0, 0xffffff00)
 		elsif (@estado == "JOGANDO")then 
-			@bg_tela.draw(@bg_x,0,0)
+			@bggame.draw()
 			@player.draw()
 			@font.draw("Soldados capturados: #{@player.score}" , 10, 10, 3,1.0,1.0, 0xffffff00)
 			@font.draw("Tempo: #{@time.to_i} S" , 10, 40, 3,1.0,1.0, 0xffffff00)
@@ -79,17 +81,14 @@ class GuerraEntreMares < Gosu::Window
 			#Movimentando o player 
 			if (button_down? Gosu::Button::KbRight) then 
 				@player.mov_direita	
-				#movimento do background
-				@bg_x = @bg_x - 5
-				if(@bg_x < -841 )then @bg_x = 0 end 
+				@bggame.bg_esquerda
 			end 
 			
 			if(button_down? Gosu::Button::KbLeft) then
 				@player.mov_esquerda
-				#movimento do background
-				@bg_x = @bg_x + 5
-				if(@bg_x > 0)then @bg_x = 0 end 
+				@bggame.bg_direita 
 			end 
+			
 			#numero de inimigos aumetando e de nativos diminuindo
 			if(@numero_de_ini.to_i > 900)then
 				@numero_de_ini= @numero_de_ini / (@time + 8).to_i
