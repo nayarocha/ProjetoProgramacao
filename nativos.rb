@@ -4,7 +4,7 @@ class Nativo
 	def initialize(janela)
 		@janela = janela 
 		@nativo = Gosu::Image.new(@janela,"imagens/nativo.png",true)
-		@x_nativo = rand(@janela.width / 2 + 100)
+		@x_nativo = rand(@janela.width)
 		@y_nativo = 0
 
 	end 
