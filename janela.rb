@@ -9,40 +9,44 @@ class GuerraEntreMares < Gosu::Window
 	def initialize
 		super(1024,389,false)
 		self.caption = "Guerra entre mares"
-		#@bg_tela = Gosu::Image.new(self, "imagens/bg2.png",true)
 		@player = Player.new(self)
 		@bggame = BgGame.new(self)
 		@inimigos = []	
-		#Bg em movimento
-		#@bg_x = 1
+		@bombas = []
 		@nativos = 5.times.map {Nativo.new(self)}
-		
+		@i = 0
 		@font = Gosu::Font.new(self, Gosu::default_font_name,20)
+		@font_inicio = Gosu::Font.new(self, Gosu::default_font_name, 50)
 
 		@time = 0.0
 		@estado = "INICIO"
 		@bg_inicio = Gosu::Image.new(self, "imagens/bg_final.png",true)
 		@numero_de_ini= 4000
 		@numero_de_nat= 100
+
+		@explodir = false
 	end 
 	
 	#desenha a janela
 	def draw
 		@bg_inicio.draw(0,0,0)
 		if(@estado == "INICIO")then 
-			#@font.draw("Pressione I para começar", 10, 10, 3,1.0,1.0, 0xffffff00)
+			@font_inicio.draw("Pressione [I] para iniciar o jogo", 190, 100, 3,1.0,1.0, 0xff0000ff)
 		elsif (@estado == "JOGANDO")then 
 			@bggame.draw()
 			@player.draw()
 			@font.draw("Soldados capturados: #{@player.score}" , 10, 10, 3,1.0,1.0, 0xffffff00)
 			@font.draw("Tempo: #{@time.to_i} S" , 10, 40, 3,1.0,1.0, 0xffffff00)
+			
+
 			for inimigo in @inimigos do 
 				inimigo.draw
 			end
 
 			for nativo in @nativos do 
 				nativo.draw
-			end 
+			end 	
+
 		elsif (@estado == "FIM")then
 			#fim 
 		end	 
@@ -55,6 +59,14 @@ class GuerraEntreMares < Gosu::Window
 				@estado = "JOGANDO"
 			end 
 		elsif (@estado == "JOGANDO")then 	
+			
+			if @player.captura_inimigo @inimigos then 
+				for bomba in @bombas do 
+					bomba.update
+					@captura_inimigo.update 
+				end
+			end
+		
 			if rand(@numero_de_nat) < 15 then  
 				@nativos.push(Nativo.new(self))
 			end 
@@ -101,8 +113,8 @@ class GuerraEntreMares < Gosu::Window
 				@numero_de_nat= 1000
 			end
 
-			@time += 1.0/60.0
-			if (@time.to_i == 60)then
+			@time += 1.0/50.0
+			if (@time.to_i == 50)then
 				@estado = "FIM"
 			end 			
 		elsif (@estado == "FIM")then 

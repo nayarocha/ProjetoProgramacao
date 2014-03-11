@@ -3,10 +3,10 @@ class Inimigo
 	attr_reader :y , :x
 
     def initialize(janela)
-		  @janela = janela 
-		  @img_inimigo = Gosu::Image::load_tiles(@janela,"imagens/inimigo.png",65,80,false)
-		  @x = rand(@janela.width - 10)
-      @y = 0
+		@janela = janela 
+		@img_inimigo = Gosu::Image::load_tiles(@janela,"imagens/inimigo.png",65,80,false)
+		@x = rand(@janela.width - 10)
+        @y = 0
     end
 
     
