@@ -14,7 +14,7 @@ class Player
 		
 	end 	
 
-	def draw 
+	def draw 	
 		if @acertado 		
 			img_bomba = @bomba[Gosu::milliseconds / 30 % @bomba.size]
 			img_bomba.draw(@position_x,@position_y-80,2)	

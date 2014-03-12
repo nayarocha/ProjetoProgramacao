@@ -14,7 +14,7 @@ class GuerraEntreMares < Gosu::Window
 		@inimigos = []	
 		@bombas = []
 		@nativos = 5.times.map {Nativo.new(self)}
-		@i = 0
+	
 		@font = Gosu::Font.new(self, Gosu::default_font_name,20)
 		@font_inicio = Gosu::Font.new(self, Gosu::default_font_name, 50)
 
@@ -23,6 +23,9 @@ class GuerraEntreMares < Gosu::Window
 		@bg_inicio = Gosu::Image.new(self, "imagens/bg_final.png",true)
 		@numero_de_ini= 4000
 		@numero_de_nat= 100
+		
+		@fim=30
+		@delta=0
 
 		@explodir = false
 	end 
@@ -48,7 +51,8 @@ class GuerraEntreMares < Gosu::Window
 			end 	
 
 		elsif (@estado == "FIM")then
-			#fim 
+			@bg_inicio.draw(0,0,0)
+			@font_inicio.draw("IHUUUUUUUUUUUU", 190, 100, 3,1.0,1.0, 0xff0000ff)
 		end	 
 	end 
 
@@ -59,14 +63,7 @@ class GuerraEntreMares < Gosu::Window
 				@estado = "JOGANDO"
 			end 
 		elsif (@estado == "JOGANDO")then 	
-			
-			if @player.captura_inimigo @inimigos then 
-				for bomba in @bombas do 
-					bomba.update
-					@captura_inimigo.update 
-				end
-			end
-		
+
 			if rand(@numero_de_nat) < 15 then  
 				@nativos.push(Nativo.new(self))
 			end 
@@ -113,12 +110,21 @@ class GuerraEntreMares < Gosu::Window
 				@numero_de_nat= 1000
 			end
 
-			@time += 1.0/50.0
-			if (@time.to_i == 50)then
-				@estado = "FIM"
-			end 			
+			@time += 1.0/50.0			
+			
+			if @player.captura_inimigo @inimigos then 
+				for bomba in @bombas do 
+					bomba.update
+					@captura_inimigo.update 
+				end
+				@delta = 1
+			end
+			@fim = @fim-@delta
+			if (@fim==0) then
+				@estado="FIM"
+			end
 		elsif (@estado == "FIM")then 
-			#fim
+			
 		end 		
 	end 
 end
