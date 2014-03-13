@@ -17,12 +17,14 @@ class GuerraEntreMares < Gosu::Window
 	
 		@font = Gosu::Font.new(self, Gosu::default_font_name,20)
 		@font_inicio = Gosu::Font.new(self, Gosu::default_font_name, 50)
-
+		@font_fim = Gosu::Font.new(self, Gosu::default_font_name, 40)
+		
 		@time = 0.0
 		@estado = "INICIO"
 		@bg_inicio = Gosu::Image.new(self, "imagens/bg_final.png",true)
 		@numero_de_ini= 4000
-		@numero_de_nat= 100
+		@numero_de_nat= 500
+		@time_2= 0
 		
 		@fim=30
 		@delta=0
@@ -52,7 +54,10 @@ class GuerraEntreMares < Gosu::Window
 
 		elsif (@estado == "FIM")then
 			@bg_inicio.draw(0,0,0)
-			@font_inicio.draw("IHUUUUUUUUUUUU", 190, 100, 3,1.0,1.0, 0xff0000ff)
+			#@font_inicio.draw("IHUUUUUUUUUUUU", 190, 100, 3,1.0,1.0, 0xff0000ff)
+			@font_fim.draw("Soldados capturados: #{@player.score}" , 190, 140, 3,1.0,1.0,0xff0000ff)
+			@font_fim.draw("Tempo: #{@time.to_i} S" , 190, 100, 3,1.0,1.0, 0xff0000ff)
+			
 		end	 
 	end 
 
@@ -99,10 +104,12 @@ class GuerraEntreMares < Gosu::Window
 			end 
 			
 			#numero de inimigos aumetando e de nativos diminuindo
-			if(@numero_de_ini.to_i > 900)then
+			if(@numero_de_ini.to_i > 300)then
 				@numero_de_ini= @numero_de_ini / (@time + 8).to_i
+			elsif(@time.to_i > 40)then
+				@numero_de_ini= 100
 			else
-				@numero_de_ini= 900
+				@numero_de_ini= 300
 			end
 			if(@numero_de_nat.to_i < 1000)then
 				@numero_de_nat= @numero_de_nat * (@time + 1).to_i 
@@ -111,6 +118,7 @@ class GuerraEntreMares < Gosu::Window
 			end
 
 			@time += 1.0/50.0			
+			@time_2= (@time.to_f)/60
 			
 			if @player.captura_inimigo @inimigos then 
 				for bomba in @bombas do 
